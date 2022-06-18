@@ -1,4 +1,4 @@
-# ansible-role-setup
+# Ansible Role Setup
 
 [![GitHub last commit](https://img.shields.io/github/last-commit/ursinn/ansible-role-setup?logo=github&style=for-the-badge)](https://github.com/ursinn/ansible-role-setup/commits)
 [![License](https://img.shields.io/github/license/ursinn/ansible-role-setup?style=for-the-badge)](https://github.com/ursinn/ansible-role-setup/blob/main/LICENSE)
