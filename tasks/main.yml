@@ -10,4 +10,5 @@
     - curl
     - etckeeper
     - acl
-    - zstd    
+    - zstd
+    - pwgen
