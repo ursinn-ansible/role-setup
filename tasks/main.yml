@@ -12,3 +12,4 @@
     - acl
     - zstd
     - pwgen
+    - unzip
