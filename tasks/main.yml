@@ -13,3 +13,4 @@
     - zstd
     - pwgen
     - unzip
+    - jq
