@@ -1,0 +1,15 @@
+---
+system_setup_packages: 
+  - neofetch
+  - htop
+  - git
+  - curl
+  - etckeeper
+  - acl
+  - zstd
+  - pwgen
+  - unzip
+  - jq
+  - open-iscsi
+  - nfs-common
+system_setup_timezone: "Europe/Zurich"
