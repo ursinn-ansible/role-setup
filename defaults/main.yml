@@ -10,6 +10,4 @@ system_setup_packages:
   - pwgen
   - unzip
   - jq
-  - open-iscsi
-  - nfs-common
 system_setup_timezone: "Europe/Zurich"
