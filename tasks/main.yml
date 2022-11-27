@@ -5,30 +5,30 @@
     state: latest
 
 - name: Set same timezone on every Server
-  ansible.builtin.timezone:
+  community.general.timezone:
     name: "{{ system_setup_timezone }}"
 
 - name: Set SELinux to disabled state
-  ansible.builtin.selinux:
+  ansible.posix.selinux:
     state: disabled
   when: ansible_os_family == "RedHat"
 
 - name: Enable IPv4 forwarding
-  ansible.builtin.sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.ip_forward
     value: "1"
     state: present
     reload: yes
 
 - name: Enable IPv6 forwarding
-  ansible.builtin.sysctl:
+  ansible.posix.sysctl:
     name: net.ipv6.conf.all.forwarding
     value: "1"
     state: present
     reload: yes
 
 - name: Enable IPv6 router advertisements
-  ansible.builtin.sysctl:
+  ansible.posix.sysctl:
     name: net.ipv6.conf.all.accept_ra
     value: "2"
     state: present
@@ -42,13 +42,13 @@
   when: ansible_os_family == "RedHat"
 
 - name: Load br_netfilter
-  ansible.builtin.modprobe:
+  community.general.modprobe:
     name: br_netfilter
     state: present
   when: ansible_os_family == "RedHat"
 
 - name: Set bridge-nf-call-iptables (just to be sure)
-  ansible.builtin.sysctl:
+  ansible.posix.sysctl:
     name: "{{ item }}"
     value: "1"
     state: present
