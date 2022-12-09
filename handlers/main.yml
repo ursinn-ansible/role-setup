@@ -1,0 +1,4 @@
+---
+- name: make grub config
+  command: "grub-mkconfig -o /boot/grub/grub.cfg"
+  ignore_errors: "{{ ansible_check_mode }}"
