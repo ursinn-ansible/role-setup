@@ -10,4 +10,5 @@ system_setup_packages:
   - pwgen
   - unzip
   - jq
+  - net-tools
 system_setup_timezone: "Europe/Zurich"
