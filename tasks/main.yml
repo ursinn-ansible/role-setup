@@ -34,6 +34,161 @@
     state: present
     reload: yes
 
+- name: Enable syn flood protection
+  ansible.posix.sysctl:
+    name: net.ipv4.tcp_syncookies
+    value: "1"
+    state: present
+    reload: yes
+
+- name: Enable reverse path filtering
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.default.rp_filter
+    value: "1"
+    state: present
+    reload: yes
+
+- name: Enable reverse path filtering
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.all.rp_filter
+    value: "1"
+    state: present
+    reload: yes
+
+- name: Ignore source-routed packets
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.default.accept_source_route
+    value: "0"
+    state: present
+    reload: yes
+
+- name: Ignore source-routed packets
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.all.accept_source_route
+    value: "0"
+    state: present
+    reload: yes
+
+- name: Ignore source-routed packets
+  ansible.posix.sysctl:
+    name: net.ipv6.conf.default.accept_source_route
+    value: "0"
+    state: present
+    reload: yes
+
+- name: Ignore source-routed packets
+  ansible.posix.sysctl:
+    name: net.ipv6.conf.all.accept_source_route
+    value: "0"
+    state: present
+    reload: yes
+
+- name: Ignore ICMP redirects
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.default.accept_redirects
+    value: "0"
+    state: present
+    reload: yes
+
+- name: Ignore ICMP redirects
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.all.accept_redirects
+    value: "0"
+    state: present
+    reload: yes
+
+
+- name: Ignore ICMP redirects
+  ansible.posix.sysctl:
+    name: net.ipv6.conf.default.accept_redirects
+    value: "0"
+    state: present
+    reload: yes
+
+- name: Ignore ICMP redirects
+  ansible.posix.sysctl:
+    name: net.ipv6.conf.all.accept_redirects
+    value: "0"
+    state: present
+    reload: yes
+
+- name: Ignore ICMP redirects from non-GW hosts
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.default.secure_redirects
+    value: "1"
+    state: present
+    reload: yes
+
+- name: Ignore ICMP redirects from non-GW hosts
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.all.secure_redirects
+    value: "1"
+    state: present
+    reload: yes
+
+- name: Ignore ICMP broadcasts to avoid participating in Smurf attacks
+  ansible.posix.sysctl:
+    name: net.ipv4.icmp_echo_ignore_broadcasts
+    value: "1"
+    state: present
+    reload: yes
+
+- name: Ignore bad ICMP errors
+  ansible.posix.sysctl:
+    name: net.ipv4.icmp_ignore_bogus_error_responses
+    value: "1"
+    state: present
+    reload: yes
+
+- name: Enable RFC 1337 fix
+  ansible.posix.sysctl:
+    name: net.ipv4.tcp_rfc1337
+    value: "1"
+    state: present
+    reload: yes
+
+- name: Log spoofed, source-routed, and redirect packets
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.default.log_martians
+    value: "1"
+    state: present
+    reload: yes
+
+- name: Log spoofed, source-routed, and redirect packets
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.all.log_martians
+    value: "1"
+    state: present
+    reload: yes
+
+- name: Randomize addresses of mmap base, heap, stack and VDSO page
+  ansible.posix.sysctl:
+    name: kernel.randomize_va_space
+    value: "2"
+    state: present
+    reload: yes
+
+- name: Randomize addresses of mmap base, heap, stack and VDSO page
+  ansible.posix.sysctl:
+    name: kernel.randomize_va_space
+    value: "2"
+    state: present
+    reload: yes
+
+- name: Provide protection from ToCToU races
+  ansible.posix.sysctl:
+    name: fs.protected_hardlinks
+    value: "1"
+    state: present
+    reload: yes
+
+- name: Provide protection from ToCToU races
+  ansible.posix.sysctl:
+    name: fs.protected_symlinks
+    value: "1"
+    state: present
+    reload: yes
+
 - name: Add br_netfilter to /etc/modules-load.d/
   ansible.builtin.copy:
     content: "br_netfilter"
