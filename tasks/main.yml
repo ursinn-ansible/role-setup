@@ -181,6 +181,7 @@
     value: "1"
     state: present
     reload: yes
+  ignore_errors: true
 
 - name: Provide protection from ToCToU races
   ansible.posix.sysctl:
@@ -188,6 +189,7 @@
     value: "1"
     state: present
     reload: yes
+  ignore_errors: true
 
 - name: Add br_netfilter to /etc/modules-load.d/
   ansible.builtin.copy:
