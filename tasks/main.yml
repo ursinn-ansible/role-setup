@@ -236,3 +236,4 @@
     line: 'GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"'
     state: present
   notify: make grub config
+  ignore_errors: true
