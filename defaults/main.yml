@@ -12,5 +12,6 @@ system_setup_packages:
   - jq
   - net-tools
   - traceroute
+  - tcpdump
 system_setup_timezone: "Europe/Zurich"
 system_setup_hostname: "{{ inventory_hostname }}"
