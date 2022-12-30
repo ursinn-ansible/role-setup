@@ -97,6 +97,19 @@
     state: present
     reload: yes
 
+- name: Disable ICMP redirects
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.default.send_redirects
+    value: "0"
+    state: present
+    reload: yes
+
+- name: Disable ICMP redirects
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.all.send_redirects
+    value: "0"
+    state: present
+    reload: yes
 
 - name: Ignore ICMP redirects
   ansible.posix.sysctl:
@@ -190,6 +203,112 @@
     state: present
     reload: yes
   ignore_errors: true
+
+- name: Disable Proxy ARP
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.default.proxy_arp
+    value: "0"
+    state: present
+    reload: yes
+
+- name: Disable Proxy ARP
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.all.proxy_arp
+    value: "0"
+    state: present
+    reload: yes
+
+- name: Disable ARP Filter
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.default.arp_filter
+    value: "0"
+    state: present
+    reload: yes
+
+- name: Disable ARP Filter
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.all.arp_filter
+    value: "0"
+    state: present
+    reload: yes
+
+- name: Disable ipv6 autoconf
+  ansible.posix.sysctl:
+    name: net.ipv6.conf.default.autoconf
+    value: "0"
+    state: present
+    reload: yes
+
+- name: Disable ipv6 autoconf
+  ansible.posix.sysctl:
+    name: net.ipv6.conf.all.autoconf
+    value: "0"
+    state: present
+    reload: yes
+  ignore_errors: true
+
+- name: Set ARP Ignore to 2
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.default.arp_ignore
+    value: "2"
+    state: present
+    reload: yes
+  ignore_errors: true
+
+- name: Set ARP Ignore to 2
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.all.arp_ignore
+    value: "2"
+    state: present
+    reload: yes
+  ignore_errors: true
+
+- name: Set ARP Announce to 1
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.default.arp_announce
+    value: "1"
+    state: present
+    reload: yes
+  ignore_errors: true
+
+- name: Set ARP Announce to 1
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.all.arp_announce
+    value: "1"
+    state: present
+    reload: yes
+  ignore_errors: true
+
+- name: Disable ARP Notify
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.default.arp_notify
+    value: "0"
+    state: present
+    reload: yes
+  ignore_errors: true
+
+- name: Disable ARP Notify
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.all.arp_notify
+    value: "0"
+    state: present
+    reload: yes
+  ignore_errors: true
+
+- name: Ignore Router Advertisements
+  ansible.posix.sysctl:
+    name: net.ipv6.conf.default.accept_ra
+    value: "0"
+    state: present
+    reload: yes
+  ignore_errors: true
+
+# - name: Ignore Router Advertisements
+#   ansible.posix.sysctl:
+#     name: net.ipv6.conf.all.accept_ra
+#     value: "0"
+#     state: present
+#     reload: yes
 
 - name: Add br_netfilter to /etc/modules-load.d/
   ansible.builtin.copy:
