@@ -356,3 +356,9 @@
     state: present
   notify: make grub config
   ignore_errors: true
+
+- name: Clear ram cache
+  ansible.builtin.cron:
+    name: "clean ram cache"
+    special_time: hourly
+    job: "sync; echo 3 > /proc/sys/vm/drop_caches"
