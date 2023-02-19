@@ -13,5 +13,6 @@ system_setup_packages:
   - net-tools
   - traceroute
   - tcpdump
+  - iputils-ping
 system_setup_timezone: "Europe/Zurich"
 system_setup_hostname: "{{ inventory_hostname }}"
