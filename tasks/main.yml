@@ -310,6 +310,13 @@
 #     state: present
 #     reload: yes
 
+- name: Set IPv6 route max size
+  ansible.posix.sysctl:
+    name: net.ipv6.route.max_size
+    value: "262144"
+    state: present
+    reload: yes
+
 - name: Add br_netfilter to /etc/modules-load.d/
   ansible.builtin.copy:
     content: "br_netfilter"
