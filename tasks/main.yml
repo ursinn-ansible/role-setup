@@ -316,6 +316,7 @@
     value: "262144"
     state: present
     reload: yes
+  ignore_errors: true
 
 - name: Add br_netfilter to /etc/modules-load.d/
   ansible.builtin.copy:
