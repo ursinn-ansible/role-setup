@@ -15,5 +15,4 @@ system_setup_packages:
   - tcpdump
   - iputils-ping
   - mtr
-system_setup_timezone: "Europe/Zurich"
 system_setup_hostname: "{{ inventory_hostname }}"
