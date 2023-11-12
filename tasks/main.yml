@@ -1,320 +1,215 @@
 ---
 - name: Install packages
   ansible.builtin.package:
-    name: "{{ system_setup_packages }}"
+    name: "{{ system_setup_install_packages }}"
     state: latest
+
+- name: Remove packages
+  ansible.builtin.package:
+    name: "{{ system_setup_remove_packages }}"
+    state: absent
 
 - name: Set hostname
   ansible.builtin.hostname:
    name: "{{ system_setup_hostname }}"
 
-- name: Enable IPv4 forwarding
+- name: "Set sysctl {{ item.name }} to value {{ item.value }}"
   ansible.posix.sysctl:
-    name: net.ipv4.ip_forward
-    value: "1"
-    state: present
-    reload: yes
-
-- name: Enable IPv6 forwarding
-  ansible.posix.sysctl:
-    name: net.ipv6.conf.all.forwarding
-    value: "1"
-    state: present
-    reload: yes
-
-- name: Enable IPv6 router advertisements
-  ansible.posix.sysctl:
-    name: net.ipv6.conf.all.accept_ra
-    value: "2"
-    state: present
-    reload: yes
-
-- name: Enable syn flood protection
-  ansible.posix.sysctl:
-    name: net.ipv4.tcp_syncookies
-    value: "1"
-    state: present
-    reload: yes
-
-- name: Enable reverse path filtering
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.default.rp_filter
-    value: "1"
-    state: present
-    reload: yes
-
-- name: Enable reverse path filtering
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.all.rp_filter
-    value: "1"
-    state: present
-    reload: yes
-
-- name: Ignore source-routed packets
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.default.accept_source_route
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Ignore source-routed packets
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.all.accept_source_route
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Ignore source-routed packets
-  ansible.posix.sysctl:
-    name: net.ipv6.conf.default.accept_source_route
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Ignore source-routed packets
-  ansible.posix.sysctl:
-    name: net.ipv6.conf.all.accept_source_route
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Ignore ICMP redirects
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.default.accept_redirects
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Ignore ICMP redirects
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.all.accept_redirects
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Disable ICMP redirects
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.default.send_redirects
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Disable ICMP redirects
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.all.send_redirects
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Ignore ICMP redirects
-  ansible.posix.sysctl:
-    name: net.ipv6.conf.default.accept_redirects
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Ignore ICMP redirects
-  ansible.posix.sysctl:
-    name: net.ipv6.conf.all.accept_redirects
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Ignore ICMP redirects from non-GW hosts
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.default.secure_redirects
-    value: "1"
-    state: present
-    reload: yes
-
-- name: Ignore ICMP redirects from non-GW hosts
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.all.secure_redirects
-    value: "1"
-    state: present
-    reload: yes
-
-- name: Ignore ICMP broadcasts to avoid participating in Smurf attacks
-  ansible.posix.sysctl:
-    name: net.ipv4.icmp_echo_ignore_broadcasts
-    value: "1"
-    state: present
-    reload: yes
-
-- name: Ignore bad ICMP errors
-  ansible.posix.sysctl:
-    name: net.ipv4.icmp_ignore_bogus_error_responses
-    value: "1"
-    state: present
-    reload: yes
-
-- name: Enable RFC 1337 fix
-  ansible.posix.sysctl:
-    name: net.ipv4.tcp_rfc1337
-    value: "1"
-    state: present
-    reload: yes
-
-- name: Log spoofed, source-routed, and redirect packets
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.default.log_martians
-    value: "1"
-    state: present
-    reload: yes
-
-- name: Log spoofed, source-routed, and redirect packets
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.all.log_martians
-    value: "1"
-    state: present
-    reload: yes
-
-- name: Randomize addresses of mmap base, heap, stack and VDSO page
-  ansible.posix.sysctl:
-    name: kernel.randomize_va_space
-    value: "2"
-    state: present
-    reload: yes
-
-- name: Randomize addresses of mmap base, heap, stack and VDSO page
-  ansible.posix.sysctl:
-    name: kernel.randomize_va_space
-    value: "2"
-    state: present
-    reload: yes
-
-- name: Provide protection from ToCToU races
-  ansible.posix.sysctl:
-    name: fs.protected_hardlinks
-    value: "1"
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
     state: present
     reload: yes
   ignore_errors: true
-
-- name: Provide protection from ToCToU races
-  ansible.posix.sysctl:
-    name: fs.protected_symlinks
-    value: "1"
-    state: present
-    reload: yes
-  ignore_errors: true
-
-- name: Disable Proxy ARP
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.default.proxy_arp
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Disable Proxy ARP
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.all.proxy_arp
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Disable ARP Filter
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.default.arp_filter
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Disable ARP Filter
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.all.arp_filter
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Disable ipv6 autoconf
-  ansible.posix.sysctl:
-    name: net.ipv6.conf.default.autoconf
-    value: "0"
-    state: present
-    reload: yes
-
-- name: Disable ipv6 autoconf
-  ansible.posix.sysctl:
-    name: net.ipv6.conf.all.autoconf
-    value: "0"
-    state: present
-    reload: yes
-  ignore_errors: true
-
-- name: Set ARP Ignore to 2
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.default.arp_ignore
-    value: "2"
-    state: present
-    reload: yes
-  ignore_errors: true
-
-- name: Set ARP Ignore to 2
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.all.arp_ignore
-    value: "2"
-    state: present
-    reload: yes
-  ignore_errors: true
-
-- name: Set ARP Announce to 1
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.default.arp_announce
-    value: "1"
-    state: present
-    reload: yes
-  ignore_errors: true
-
-- name: Set ARP Announce to 1
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.all.arp_announce
-    value: "1"
-    state: present
-    reload: yes
-  ignore_errors: true
-
-- name: Disable ARP Notify
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.default.arp_notify
-    value: "0"
-    state: present
-    reload: yes
-  ignore_errors: true
-
-- name: Disable ARP Notify
-  ansible.posix.sysctl:
-    name: net.ipv4.conf.all.arp_notify
-    value: "0"
-    state: present
-    reload: yes
-  ignore_errors: true
-
-- name: Ignore Router Advertisements
-  ansible.posix.sysctl:
-    name: net.ipv6.conf.default.accept_ra
-    value: "0"
-    state: present
-    reload: yes
-  ignore_errors: true
-
-# - name: Ignore Router Advertisements
-#   ansible.posix.sysctl:
-#     name: net.ipv6.conf.all.accept_ra
-#     value: "0"
-#     state: present
-#     reload: yes
-
-- name: Set IPv6 route max size
-  ansible.posix.sysctl:
-    name: net.ipv6.route.max_size
-    value: "262144"
-    state: present
-    reload: yes
-  ignore_errors: true
+  with_items:
+    - name: "net.ipv4.ip_forward"
+      value: '1'
+    - name: "net.ipv6.conf.all.forwarding"
+      value: '1'
+    - name: "net.ipv6.conf.all.accept_ra"
+      value: '2'
+    - name: "net.ipv4.tcp_syncookies"
+      value: '1'
+    - name: "net.ipv4.conf.default.rp_filter"
+      value: '1'
+    - name: "net.ipv4.conf.all.rp_filter"
+      value: '1'
+    - name: "net.ipv4.conf.default.accept_source_route"
+      value: '0'
+    - name: "net.ipv4.conf.all.accept_source_route"
+      value: '0'
+    - name: "net.ipv6.conf.default.accept_source_route"
+      value: '0'
+    - name: "net.ipv6.conf.all.accept_source_route"
+      value: '0'
+    - name: "net.ipv4.conf.default.accept_redirects"
+      value: '0'
+    - name: "net.ipv4.conf.all.accept_redirects"
+      value: '0'
+    - name: "net.ipv4.conf.default.send_redirects"
+      value: '0'
+    - name: "net.ipv4.conf.all.send_redirects"
+      value: '0'
+    - name: "net.ipv6.conf.default.accept_redirects"
+      value: '0'
+    - name: "net.ipv6.conf.all.accept_redirects"
+      value: '0'
+    - name: "net.ipv4.conf.default.secure_redirects"
+      value: '1'
+    - name: "net.ipv4.conf.all.secure_redirects"
+      value: '1'
+    - name: "net.ipv4.icmp_echo_ignore_broadcasts"
+      value: '1'
+    - name: "net.ipv4.icmp_ignore_bogus_error_responses"
+      value: '1'
+    - name: "net.ipv4.tcp_rfc1337"
+      value: '1'
+    - name: "net.ipv4.conf.default.log_martians"
+      value: '1'
+    - name: "net.ipv4.conf.all.log_martians"
+      value: '1'
+    - name: "kernel.randomize_va_space"
+      value: '2'
+    - name: "kernel.randomize_va_space"
+      value: '2'
+    - name: "fs.protected_hardlinks"
+      value: '1'
+    - name: "fs.protected_symlinks"
+      value: '1'
+    - name: "net.ipv4.conf.default.proxy_arp"
+      value: '0'
+    - name: "net.ipv4.conf.all.proxy_arp"
+      value: '0'
+    - name: "net.ipv4.conf.default.arp_filter"
+      value: '0'
+    - name: "net.ipv4.conf.all.arp_filter"
+      value: '0'
+    - name: "net.ipv6.conf.default.autoconf"
+      value: '0'
+    - name: "net.ipv6.conf.all.autoconf"
+      value: '0'
+    - name: "net.ipv4.conf.default.arp_ignore"
+      value: '2'
+    - name: "net.ipv4.conf.all.arp_ignore"
+      value: '2'
+    - name: "net.ipv4.conf.default.arp_announce"
+      value: '1'
+    - name: "net.ipv4.conf.all.arp_announce"
+      value: '1'
+    - name: "net.ipv4.conf.default.arp_notify"
+      value: '0'
+    - name: "net.ipv4.conf.all.arp_notify"
+      value: '0'
+    - name: "net.ipv6.conf.default.accept_ra"
+      value: '0'
+#    - name: "net.ipv6.conf.all.accept_ra"
+#      value: '0'
+    - name: "net.ipv6.route.max_size"
+      value: '262144'
 
 - name: Clear ram cache
   ansible.builtin.cron:
     name: "clean ram cache"
     special_time: hourly
     job: "sync; echo 3 > /proc/sys/vm/drop_caches"
+
+- name: Change crone file permissions
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - path: "/etc/cron.d"
+      mode: '0700'
+    - path: "/etc/cron.monthly"
+      mode: '0700'
+    - path: "/etc/cron.weekly"
+      mode: '0700'
+    - path: "/etc/cron.daily"
+      mode: '0700'
+    - path: "/etc/cron.hourly"
+      mode: '0700'
+    - path: "/etc/crontab"
+      mode: '0600'
+
+- name: Create crone files
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: touch
+    mode: "{{ item.mode }}"
+    modification_time: preserve
+    access_time: preserve
+  with_items:
+    - path: "/etc/cron.allow"
+      mode: '0644'
+    - path: "/etc/at.allow"
+      mode: '0644'
+
+- name: Update pwquality configuration.
+  ansible.builtin.lineinfile:
+    dest: "/etc/security/pwquality.conf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - regexp: "^minlen"
+      line: "minlen = 14"
+    - regexp: "^dcredit"
+      line: "dcredit = -1"
+    - regexp: "^ucredit"
+      line: "ucredit = -1"
+    - regexp: "^ocredit"
+      line: "ocredit = -1"
+    - regexp: "^lcredit"
+      line: "lcredit = -1"
+
+- name: Set permission on /var/log files
+  ansible.builtin.file:
+    path: /var/log
+    recurse: yes
+    mode: '0640'
+
+- name: "Disable {{ item }} filesystems"
+  ansible.builtin.blockinfile:
+    dest: "/etc/modprobe.d/{{ item }}.conf"
+    create: true
+    block: "install {{ item }} /bin/true"
+  with_items:
+    - freevxfs
+    - jffs2
+    - hfs
+    - hfsplus
+    - squashfs
+    - udf
+    - usb-storage
+
+- name: "Create timeout profile.d file"
+  ansible.builtin.blockinfile:
+    dest: "/etc/profile.d/timeout.sh"
+    create: true
+    block: "readonly TMOUT=900 ; export TMOUT"
+
+- name: "Set permission on /home/{{ item }} directory"
+  ansible.builtin.file:
+    path: "/home/{{ item }}"
+    mode: '0700'
+  with_items:
+    - ansible
+
+- name: Set fstab Options
+  ansible.builtin.lineinfile:
+    dest: "/etc/fstab"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - regexp: "^/dev/sr0        /media/cdrom0   udf,iso9660 user,noauto     0       0"
+      line: "/dev/sr0        /media/cdrom0   udf,iso9660 user,noauto,nodev,nosuid,noexec     0       0"
+
+- name: "Require wheel group membership for su"
+  ansible.builtin.blockinfile:
+    dest: "/etc/pam.d/su"
+    block: "auth required pam_wheel.so"
+
+- name: "Set logrotate permission"
+  ansible.builtin.blockinfile:
+    dest: "/etc/logrotate.conf"
+    block: "create 0640 root utmp"

@@ -1,5 +1,5 @@
 ---
-system_setup_packages: 
+system_setup_install_packages: 
   - neofetch
   - htop
   - git
@@ -15,4 +15,7 @@ system_setup_packages:
   - tcpdump
   - iputils-ping
   - mtr
+  - libpam-pwquality
+  - apparmor-utils
+system_setup_remove_packages: []
 system_setup_hostname: "{{ inventory_hostname }}"
