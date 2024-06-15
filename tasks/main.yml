@@ -1,17 +1,17 @@
 ---
 - name: Install packages
   ansible.builtin.package:
-    name: "{{ system_setup_install_packages }}"
+    name: "{{ role_setup_install_packages }}"
     state: latest
 
 - name: Remove packages
   ansible.builtin.package:
-    name: "{{ system_setup_remove_packages }}"
+    name: "{{ role_setup_remove_packages }}"
     state: absent
 
 - name: Set hostname
   ansible.builtin.hostname:
-   name: "{{ system_setup_hostname }}"
+   name: "{{ role_setup_hostname }}"
 
 - name: "Set sysctl {{ item.name }} to value {{ item.value }}"
   ansible.posix.sysctl:
@@ -105,6 +105,12 @@
 #      value: '0'
     - name: "net.ipv6.route.max_size"
       value: '262144'
+    - name: "net.ipv6.route.max_size"
+      value: '262144'
+    - name: "net.ipv4.neigh.default.base_reachable_time_ms"
+      value: '14400000'
+    - name: "net.ipv6.neigh.default.base_reachable_time_ms"
+      value: '14400000'
 
 - name: Clear ram cache
   ansible.builtin.cron:
@@ -164,8 +170,7 @@
 - name: Set permission on /var/log files
   ansible.builtin.file:
     path: /var/log
-    recurse: yes
-    mode: '0640'
+    mode: '1777'
 
 - name: "Disable {{ item }} filesystems"
   ansible.builtin.blockinfile:

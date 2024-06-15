@@ -1,5 +1,5 @@
 ---
-system_setup_install_packages: 
+role_setup_install_packages: 
   - neofetch
   - htop
   - git
@@ -17,5 +17,6 @@ system_setup_install_packages:
   - mtr
   - libpam-pwquality
   - apparmor-utils
-system_setup_remove_packages: []
-system_setup_hostname: "{{ inventory_hostname }}"
+  - ethtool
+role_setup_remove_packages: []
+role_setup_hostname: "{{ inventory_hostname }}"
